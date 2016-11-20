@@ -1,5 +1,6 @@
 #define _DEFAULT_SOURCE
 #define _CRT_SECURE_NO_WARNINGS
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "bmpify.h"
@@ -36,20 +37,29 @@ int main(int argc, char *argv[])
 	writeFileHeader(outputFile, inputFileSize);
 
 	// determine image dimentions
-	int64_t pixelCount = inputFileSize / (PIXEL_BITS / 8);
+	int64_t pixelCount = inputFileSize / PIXEL_BYTES;
 	int32_t width, height;
-	width = pixelCount / 2;
-	height = pixelCount / 2;
-	int32_t rowSize = width * (PIXEL_BITS / 8);
+	width = height = round(sqrt(pixelCount));
+	int32_t rowSize = width * PIXEL_BYTES;
+	int32_t paddedRowSize = rowSize % 4 == 0 ? rowSize : rowSize + 2;
 
-	printf("Input size: %ldB, pixel count: %ld, dimentions: %dx%d, row size: %dB\n",
-		inputFileSize, pixelCount, width, height, rowSize);
+	printf("Input: %ldB, pixels: %ld (%d x %d x %d), bytes/row: %dB (%dB padded)\n",
+		inputFileSize, pixelCount, width, height, PIXEL_BITS, rowSize, paddedRowSize);
 
 	// can now write output bitmap header
 	writeBitmapHeader(outputFile, width, height);
 
-	// TODO read/write pixels
+	// pixel buffer
+	char *pixels = calloc(1, paddedRowSize);
 
+	// read/write pixels as rows in the image
+	for(int i = 0; i < height; i++)
+	{
+		fread(pixels, 1, rowSize, inputFile);
+		fwrite(pixels, 1, paddedRowSize, outputFile);
+	}
+
+	free(pixels);
 	fclose(inputFile);
 	fclose(outputFile);
 	return 0;

@@ -16,9 +16,10 @@ typedef long int int64_t;
 
 #endif
 
-/* change both of these to change the bits-per-pixel */
-#define PIXEL_BITS 32
-#define pixelType int32_t
+/* change the first two #defines to change the bits-per-pixel */
+#define PIXEL_BITS 16
+#define pixelType int16_t
+#define PIXEL_BYTES (PIXEL_BITS / 8)
 
 #define FH_WINDOWS_SIG 0x4D42
 #define FH_RESERVED_A 0
