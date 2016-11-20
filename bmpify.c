@@ -16,14 +16,14 @@ int main(int argc, char *argv[])
 	FILE *inputFile, *outputFile;
 
 	// open input file
-	if((inputFile = fopen(argv[1], "r")) == NULL)
+	if((inputFile = fopen(argv[1], "rb")) == NULL)
 	{
 		perror(argv[1]);
 		return 1;
 	}
 
 	// open output file
-	if((outputFile = fopen(argv[2], "w+")) == NULL)
+	if((outputFile = fopen(argv[2], "wb+")) == NULL)
 	{
 		perror(argv[2]);
 		fclose(inputFile);
