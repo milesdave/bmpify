@@ -10,7 +10,7 @@
 
 ### Windows
 
-The source files can be compiled on Windows. A version compiled with Visual Studio 2015 can be downloaded from [releases](releases).
+The source files can be compiled on Windows. A version compiled with Visual Studio 2015 can be downloaded from the releases [here](../../releases/tag/v1.1).
 
 ## Usage
 

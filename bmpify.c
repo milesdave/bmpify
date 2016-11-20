@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	// determine image dimentions
 	int64_t pixelCount = inputFileSize / PIXEL_BYTES;
 	int32_t width, height;
-	width = height = round(sqrt(pixelCount));
+	width = height = (int32_t)round(sqrt(pixelCount));
 	int32_t rowSize = width * PIXEL_BYTES;
 	int32_t paddedRowSize = rowSize % 4 == 0 ? rowSize : rowSize + PIXEL_BYTES;
 
