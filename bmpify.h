@@ -14,6 +14,9 @@ typedef short int16_t;
 
 #endif
 
+#define FH_WINDOWS_SIG 0x4D42
+#define FH_RESERVED_A 0
+#define FH_RESERVED_B 0
 PACK(struct fileHeader
 {
 	int16_t signature;
@@ -23,6 +26,15 @@ PACK(struct fileHeader
 	int32_t offset;
 });
 
+#define BH_HEADER_SIZE 40
+#define BH_PLANES 0
+#define BH_BITS 32
+#define BH_COMPRESSION 0
+#define BH_IMAGE_SIZE 0
+#define BH_X_PPM 0
+#define BH_Y_PPM 0
+#define BH_COLOUR_PALLET 0
+#define BH_IMPORTANT_COLOURS 0
 PACK(struct bitmapHeader
 {
 	int32_t headerSize;
