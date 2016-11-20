@@ -3,10 +3,11 @@
 
 #ifdef _WIN32
 
+#define PACK(__Declaration__) __pragma(pack(push, 1)) __Declaration__ __pragma(pack(pop))
+typedef char int8_t;
 typedef short int16_t;
 typedef int int32_t;
 typedef long int int64_t;
-#define PACK(__Declaration__) __pragma(pack(push, 1)) __Declaration__ __pragma(pack(pop))
 
 #else
 
@@ -14,6 +15,10 @@ typedef long int int64_t;
 #define PACK(__Declaration__) __Declaration__ __attribute__((__packed__))
 
 #endif
+
+/* change both of these to change the bits-per-pixel */
+#define PIXEL_BITS 32
+#define pixelType int32_t
 
 #define FH_WINDOWS_SIG 0x4D42
 #define FH_RESERVED_A 0
@@ -29,7 +34,6 @@ PACK(struct _fileHeader
 
 #define BH_HEADER_SIZE 40
 #define BH_PLANES 0
-#define BH_BITS 32
 #define BH_COMPRESSION 0
 #define BH_IMAGE_SIZE 0
 #define BH_X_PPM 0

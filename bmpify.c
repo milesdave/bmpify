@@ -35,11 +35,20 @@ int main(int argc, char *argv[])
 	// can now write output file header
 	writeFileHeader(outputFile, inputFileSize);
 
-	// determine image width and height
-	// TODO
+	// determine image dimentions
+	int64_t pixelCount = inputFileSize / (PIXEL_BITS / 8);
+	int32_t width, height;
+	width = pixelCount / 2;
+	height = pixelCount / 2;
+	int32_t rowSize = width * (PIXEL_BITS / 8);
+
+	printf("Input size: %ldB, pixel count: %ld, dimentions: %dx%d, row size: %dB\n",
+		inputFileSize, pixelCount, width, height, rowSize);
 
 	// can now write output bitmap header
-	writeBitmapHeader(outputFile, 0, 0);
+	writeBitmapHeader(outputFile, width, height);
+
+	// TODO read/write pixels
 
 	fclose(inputFile);
 	fclose(outputFile);
@@ -82,7 +91,7 @@ void writeBitmapHeader(FILE *outputFile, int32_t width, int32_t height)
 	bitmapHeader.width = width;
 	bitmapHeader.height = height;
 	bitmapHeader.planes = BH_PLANES;
-	bitmapHeader.bitCount = BH_BITS;
+	bitmapHeader.bitCount = PIXEL_BITS;
 	bitmapHeader.compression = BH_COMPRESSION;
 	bitmapHeader.imageSize = BH_IMAGE_SIZE;
 	bitmapHeader.xPPM = BH_X_PPM;
