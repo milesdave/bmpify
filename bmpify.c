@@ -41,9 +41,9 @@ int main(int argc, char *argv[])
 	int32_t width, height;
 	width = height = round(sqrt(pixelCount));
 	int32_t rowSize = width * PIXEL_BYTES;
-	int32_t paddedRowSize = rowSize % 4 == 0 ? rowSize : rowSize + 2;
+	int32_t paddedRowSize = rowSize % 4 == 0 ? rowSize : rowSize + PIXEL_BYTES;
 
-	printf("Input: %ldB, pixels: %ld (%d x %d x %d), bytes/row: %dB (%dB padded)\n",
+	printf("Input: %ldB, pixels: %ld (%d x %d x %d), bytes/row: %dB (%dB)\n",
 		inputFileSize, pixelCount, width, height, PIXEL_BITS, rowSize, paddedRowSize);
 
 	// can now write output bitmap header
