@@ -3,8 +3,9 @@
 
 #ifdef _WIN32
 
-typedef int int32_t;
 typedef short int16_t;
+typedef int int32_t;
+typedef long int int64_t;
 #define PACK(__Declaration__) __pragma(pack(push, 1)) __Declaration__ __pragma(pack(pop))
 
 #else
@@ -17,7 +18,7 @@ typedef short int16_t;
 #define FH_WINDOWS_SIG 0x4D42
 #define FH_RESERVED_A 0
 #define FH_RESERVED_B 0
-PACK(struct fileHeader
+PACK(struct _fileHeader
 {
 	int16_t signature;
 	int32_t fileSize;
@@ -35,7 +36,7 @@ PACK(struct fileHeader
 #define BH_Y_PPM 0
 #define BH_COLOUR_PALLET 0
 #define BH_IMPORTANT_COLOURS 0
-PACK(struct bitmapHeader
+PACK(struct _bitmapHeader
 {
 	int32_t headerSize;
 	int32_t width;
@@ -50,7 +51,10 @@ PACK(struct bitmapHeader
 	int32_t importantColours;
 });
 
-typedef struct fileHeader fileHeader_t;
-typedef struct bitmapHeader bitmapHeader_t;
+typedef struct _fileHeader fileHeader_t;
+typedef struct _bitmapHeader bitmapHeader_t;
+
+int64_t fileSize(FILE *file);
+void writeFileHeader(FILE *outputFile, int64_t inputFileSize);
 
 #endif
