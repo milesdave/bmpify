@@ -56,5 +56,6 @@ typedef struct _bitmapHeader bitmapHeader_t;
 
 int64_t fileSize(FILE *file);
 void writeFileHeader(FILE *outputFile, int64_t inputFileSize);
+void writeBitmapHeader(FILE *outputFile, int32_t width, int32_t height);
 
 #endif

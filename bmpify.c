@@ -29,8 +29,17 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	// write file header
-	writeFileHeader(outputFile, fileSize(inputFile));
+	// get input file size
+	int64_t inputFileSize = fileSize(inputFile);
+
+	// can now write output file header
+	writeFileHeader(outputFile, inputFileSize);
+
+	// determine image width and height
+	// TODO
+
+	// can now write output bitmap header
+	writeBitmapHeader(outputFile, 0, 0);
 
 	fclose(inputFile);
 	fclose(outputFile);
@@ -53,7 +62,7 @@ int64_t fileSize(FILE *file)
 
 void writeFileHeader(FILE *outputFile, int64_t inputFileSize)
 {
-	// file header
+	// file header struct
 	fileHeader_t fileHeader;
 	fileHeader.signature = FH_WINDOWS_SIG;
 	fileHeader.fileSize = sizeof(fileHeader_t) + sizeof(bitmapHeader_t) + inputFileSize;
@@ -61,6 +70,26 @@ void writeFileHeader(FILE *outputFile, int64_t inputFileSize)
 	fileHeader.reservedB = FH_RESERVED_B;
 	fileHeader.offset = sizeof(fileHeader_t) + sizeof(bitmapHeader_t);
 
-	// write to file
+	// write struct to file
 	fwrite(&fileHeader, 1, sizeof(fileHeader_t), outputFile);
+}
+
+void writeBitmapHeader(FILE *outputFile, int32_t width, int32_t height)
+{
+	// bitmap header struct
+	bitmapHeader_t bitmapHeader;
+	bitmapHeader.headerSize = BH_HEADER_SIZE;
+	bitmapHeader.width = width;
+	bitmapHeader.height = height;
+	bitmapHeader.planes = BH_PLANES;
+	bitmapHeader.bitCount = BH_BITS;
+	bitmapHeader.compression = BH_COMPRESSION;
+	bitmapHeader.imageSize = BH_IMAGE_SIZE;
+	bitmapHeader.xPPM = BH_X_PPM;
+	bitmapHeader.yPPM = BH_Y_PPM;
+	bitmapHeader.colourPallet = BH_COLOUR_PALLET;
+	bitmapHeader.importantColours = BH_IMPORTANT_COLOURS;
+
+	// write struct to file
+	fwrite(&bitmapHeader, 1, sizeof(bitmapHeader_t), outputFile);
 }
