@@ -2,22 +2,24 @@
 
 *Turn any file into a 16-bit bitmap image.*
 
-## Compiling
-
-### Linux
-
-`make`, or `make && sudo make install && make clean`.
-
-### Windows
-
-The source files can be compiled on Windows. A version compiled with Visual Studio 2015 can be downloaded from the releases [here](../../releases/tag/v1.1).
-
 ## Usage
 
-`bmpify input-file output-file`
+A Windows `.exe` is available from the releases [here](../../releases/).
 
-Here's what `bmpify.exe` looks like as a bitmap image:
+Use the `Makefile` for other systems.
 
-`./bmpify bmpify.exe example.bmp`
+```
+Usage: ./bmpify input-file [output-file]
+
+  input-file        file used to generate the bitmap image
+  output-file       optional filename for the bitmap image
+                    default file if none specified is "output.bmp"
+```
+
+**Alternatively on Windows you can just drag the input file onto `bmpify.exe`.**
+
+Here's what the `bmpify` ELF looks like as a bitmap image:
+
+`./bmpify bmpify example.bmp`
 
 ![bmpify example](example.png "bmpify example")

@@ -7,11 +7,20 @@
 
 int main(int argc, char *argv[])
 {
-	if(argc != 3)
+	const char *outputFileName;
+
+	if(argc < 2)
 	{
-		printf("Usage: %s input-file output-file\n", argv[0]);
+		printf("Usage: %s input-file [output-file]\n\n"
+			"  input-file        file used to generate the bitmap image\n"
+			"  output-file       optional filename for the bitmap image\n"
+			"                    default file if none specified is \"%s\"\n",
+			argv[0], defaultOutputFileName);
 		return 1;
 	}
+
+	// use default output file name if none provided
+	outputFileName = argc == 2 ? defaultOutputFileName : argv[2];
 
 	FILE *inputFile, *outputFile;
 
@@ -23,9 +32,9 @@ int main(int argc, char *argv[])
 	}
 
 	// open output file
-	if((outputFile = fopen(argv[2], "wb+")) == NULL)
+	if((outputFile = fopen(outputFileName, "wb+")) == NULL)
 	{
-		perror(argv[2]);
+		perror(outputFileName);
 		fclose(inputFile);
 		return 1;
 	}
@@ -43,8 +52,10 @@ int main(int argc, char *argv[])
 	int32_t rowSize = width * PIXEL_BYTES;
 	int32_t paddedRowSize = rowSize % 4 == 0 ? rowSize : rowSize + PIXEL_BYTES;
 
-	printf("Input: %ldB, pixels: %ld (%d x %d x %d), bytes/row: %dB (%dB)\n",
-		inputFileSize, pixelCount, width, height, PIXEL_BITS, rowSize, paddedRowSize);
+	printf("Input: %ldB, pixels: %ld (%d x %d x %d), bytes/row: %dB (%dB)\n"
+		"Output: %s\n",
+		inputFileSize, pixelCount, width, height, PIXEL_BITS, rowSize, paddedRowSize,
+		outputFileName);
 
 	// can now write output bitmap header
 	writeBitmapHeader(outputFile, width, height);
