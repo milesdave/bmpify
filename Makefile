@@ -2,6 +2,7 @@ EXE = bmpify
 
 CC = gcc
 CFLAGS = -std=c99 -Wall
+LDLIBS = -lm
 
 RM = rm -f
 CP = cp -p
@@ -17,7 +18,7 @@ debug: CFLAGS += -g
 debug: $(EXE)
 
 $(EXE): $(OBJ)
-	$(CC) $(LDFLAGS) -o $@ $^
+	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 depend: .depend
 
